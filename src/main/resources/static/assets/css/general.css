@@ -1,0 +1,30 @@
+.section-margin {
+    margin-top: 5rem;
+}
+.header-margin {
+    margin-top: 3.125rem;
+}
+
+.btn-adicionar {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.footer-padrao {
+    margin-top: 3.5rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.div-switch-margin {
+    margin-top: 1.5rem;
+}
+
+/*.switch-margin {*/
+/*    width: 2.0rem !important;*/
+/*    height: 1.5rem;*/
+/*}*/
+
+/*.switch-label {*/
+/*    padding: 0.2rem 0.5rem;*/
+/*}*/

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+ <head>
+      <div th:replace="fragments/head"></div>
+
+ </head>    
+ <body>
+
+      <div id="app">
+
+            
+        
+            <div id="sidebar" class="active">
+                <div th:replace="fragments/menu"></div>
+            </div>
+        
+            <div id="main">
+        
+                <div th:replace="fragments/header"></div>
+        
+                
+                <div class=  "main-test-style">
+                    <section class="row">
+        
+                        <!-- CONTEUDO AQUI-->
+                        <h1>Bem-vindo <span th:text="${username}">Username</span>!</h1>
+                        
+        
+                    </section>
+                </div>
+        
+                <div class="footer-padrao" style="position: relative; top: 330px; ">
+                    <div th:replace="fragments/footer" ></div>
+                </div>
+            </div>
+        </div>
+        
+        <div th:replace="fragments/scripts"></div>
+        <script th:inline="javascript">
+            var role = (document.getElementById('role').getAttribute("value"));
+            console.log(role);
+            localStorage.setItem("role",role )
+        
+        </script>
+        
+        </body>
+        
+        
+ </body> 
+</html>
