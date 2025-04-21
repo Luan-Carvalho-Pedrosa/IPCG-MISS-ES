@@ -6,6 +6,9 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
         <include file="scripts/ORIGIN/script_inicial.sql" relativeToChangelogFile="true" />
+        <include file="scripts/TS-09/2025-04-21_CREATE-TABLES-USERS.sql" relativeToChangelogFile="true" />
+
+
 
 </databaseChangeLog>
 
