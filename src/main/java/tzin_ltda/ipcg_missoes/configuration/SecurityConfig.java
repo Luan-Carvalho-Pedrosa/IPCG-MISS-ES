@@ -34,7 +34,7 @@ public class SecurityConfig {
                     .loginPage("/login").permitAll()
                     .successForwardUrl("/")
                     .defaultSuccessUrl("/")
-                    .failureUrl("/login/error").permitAll())
+                    .failureUrl("/login").permitAll())
             .logout(logout -> logout
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).invalidateHttpSession(true)
                     .logoutSuccessUrl("/"))

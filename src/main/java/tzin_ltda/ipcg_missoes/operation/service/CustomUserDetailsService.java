@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import tzin_ltda.ipcg_missoes.operation.model.Usuario;
+import tzin_ltda.ipcg_missoes.operation.model.entity.Usuario;
 import tzin_ltda.ipcg_missoes.operation.repository.UsuarioRepositoy;
 
 public class CustomUserDetailsService implements UserDetailsService {

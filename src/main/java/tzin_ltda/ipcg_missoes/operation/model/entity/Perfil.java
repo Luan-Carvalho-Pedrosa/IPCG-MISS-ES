@@ -1,7 +1,7 @@
-package tzin_ltda.ipcg_missoes.operation.model;
+package tzin_ltda.ipcg_missoes.operation.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
