@@ -1,5 +1,6 @@
 package tzin_ltda.ipcg_missoes.operation.model.entity;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tzin_ltda.ipcg_missoes.operation.model.BasicEntity;
-import tzin_ltda.ipcg_missoes.operation.model.dto.VoluntarioDto;
+import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
 
 @Builder
 @Entity
@@ -20,29 +21,32 @@ import tzin_ltda.ipcg_missoes.operation.model.dto.VoluntarioDto;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Voluntario extends BasicEntity<VoluntarioDto> {
+
+public class Membro extends BasicEntity<MembroDto> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String ocupacao;
     private String telefone;
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
+    @Override
+    public MembroDto toDto() {
+        // TODO Auto-generated method stub
+        MembroDto membroDto = new MembroDto(id, null, null, telefone, null);
 
-    public VoluntarioDto toDto(){
-        VoluntarioDto dto = new VoluntarioDto(id, null, null, ocupacao, telefone, null);
-        if(pessoa != null){
-            dto.setPessoa_id(pessoa.getId());
-            dto.setNome(pessoa.getNome());
-            dto.setCpf(pessoa.getCpf());
+        if (pessoa != null) {
+
+            membroDto.setNome(pessoa.getNome());
+            membroDto.setCpf(pessoa.getCpf());
+            membroDto.setPessoa_id(pessoa.getId());
+
         }
-
-        return dto;
+        
+        return membroDto;
     }
-
-  
+    
 }

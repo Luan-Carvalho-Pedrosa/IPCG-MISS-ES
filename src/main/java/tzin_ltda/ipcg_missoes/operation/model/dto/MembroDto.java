@@ -7,9 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tzin_ltda.ipcg_missoes.operation.model.BasicDto;
+import tzin_ltda.ipcg_missoes.operation.model.entity.Membro;
 import tzin_ltda.ipcg_missoes.operation.model.entity.Pessoa;
-import tzin_ltda.ipcg_missoes.operation.model.entity.Voluntario;
-import tzin_ltda.ipcg_missoes.operation.model.request.VoluntarioRequest;
+import tzin_ltda.ipcg_missoes.operation.model.request.MembroRequest;
+
 
 @Data
 @AllArgsConstructor
@@ -17,26 +18,30 @@ import tzin_ltda.ipcg_missoes.operation.model.request.VoluntarioRequest;
 @Getter
 @Setter
 @Builder
-public class VoluntarioDto extends BasicDto<Voluntario, VoluntarioRequest> {
+public class MembroDto extends BasicDto<Membro, MembroRequest> {
 
     private Long id;
     private String nome;
     private String cpf;
-    private String ocupacao;
     private String telefone;
     private Long pessoa_id;
-
-    public Voluntario toEntity() {
+    
+    @Override
+    public Membro toEntity() {
+        // TODO Auto-generated method stub
         Pessoa pessoa = new Pessoa(pessoa_id, nome, cpf);
-        Voluntario voluntario = new Voluntario(id, ocupacao, telefone, pessoa);
+        Membro membro = new Membro(id, telefone, pessoa);
 
-        return voluntario;
+        return membro;
+
     }
 
-    public VoluntarioRequest toRequest(){
-        VoluntarioRequest request = new VoluntarioRequest(nome, cpf, telefone, ocupacao);
+    @Override
+    public MembroRequest toRequest() {
+        // TODO Auto-generated method stub
+        MembroRequest membroRequest = new MembroRequest(nome, cpf, telefone);
 
-        return request;
+        return membroRequest;
     }
     
 }

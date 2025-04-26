@@ -8,6 +8,8 @@
         <include file="scripts/ORIGIN/script_inicial.sql" relativeToChangelogFile="true" />
         <include file="scripts/TS-09/2025-04-21_CREATE-TABLES-USERS.sql" relativeToChangelogFile="true" />
         <include file="scripts/TS-07/2025-04-25_ALTER-TABLE-PESSOA.sql" relativeToChangelogFile="true" />
+        <include file="scripts/TS-10/2025-04-26_ALTER-TABLE-MEMBRO.sql" relativeToChangelogFile="true" />
+
 
 
 
