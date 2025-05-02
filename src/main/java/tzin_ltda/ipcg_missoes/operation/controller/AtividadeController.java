@@ -25,6 +25,8 @@ public class AtividadeController {
     @GetMapping("/incluir")
     public String listar(Model model) {
 
+        
+
 
         return  "operational/atividades/cadastrar";
 

@@ -25,13 +25,7 @@
         <div class="page-content">
             <section class="row">
 
-                <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
-                    <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
-                        <p th:text="${mensagem}"></p>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                    </div>
-                </div>
+              
                 <div class="page-heading header-margin">
                     <div class="page-title">
                         <div class="row">
@@ -46,6 +40,13 @@
                                     </ol>
                                 </nav>
                             </div>
+                        </div>
+                    </div>
+                    <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
+                        <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
+                            <p th:text="${mensagem}"></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                         </div>
                     </div>
                     <section id="input-sizing">
