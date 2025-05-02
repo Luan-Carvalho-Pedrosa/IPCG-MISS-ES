@@ -25,13 +25,7 @@
         <div class="page-content">
             <section class="row">
 
-                <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
-                    <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
-                        <p th:text="${mensagem}"></p>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                    </div>
-                </div>
+               
                 <div class="page-heading header-margin">
                     <div class="page-title">
                         <div class="row">
@@ -48,6 +42,13 @@
                             </div>
                         </div>
                     </div>
+                    <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
+                        <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
+                            <p th:text="${mensagem}"></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
                     <section id="input-sizing">
                         <div class="row match-height page-heading header-margin">
                             <div class="col-12">
@@ -55,7 +56,8 @@
                                     <div class="card-body">
                                         <form class="form" action="#"
                                               th:action="${edit} ? @{/membros/alterar/{id}(id=${membroId})} : @{/membros/salvar}"
-                                              th:object="membro" method="post" >
+                                              th:object="${membro}" method="post"
+                                              enctype="multipart/form-data" >
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <h6>Nome</h6>
@@ -90,6 +92,15 @@
                                                     accept="image/png">
                                                 </div>
                                             </div>
+                                            <div class="row" style="margin-top: 15px;" 
+                                                 th:if="${edit}">
+                                                <div class="col-sm-4">
+                                                    <h6>Foto Atual</h6>
+                                                    <img th:src="'data:image/png;base64,' + ${membroFoto}"
+                                                         style="max-width: 200px;" 
+                                                         alt="Imagem do membro" />
+                                                </div>
+                                            </div>
 
                                             
                                             <div class="row" style="margin-top: 15px;">
@@ -122,6 +133,36 @@
 </div>
 
 <div th:replace="fragments/scripts"></div>
+<script>
+     document.getElementById('imagem').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.match('image/png')) {
+                    alert('Apenas arquivos PNG são permitidos.');
+                    event.target.value = '';
+                    return;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('O arquivo deve ter no máximo 5MB.');
+                    event.target.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '200px';
+                    img.style.marginTop = '10px';
+                    const container = document.querySelector('.col-sm-4:last-child');
+                    const existingPreview = container.querySelector('img.preview');
+                    if (existingPreview) existingPreview.remove();
+                    img.classList.add('preview');
+                    container.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+</script>
 
 </body>
 

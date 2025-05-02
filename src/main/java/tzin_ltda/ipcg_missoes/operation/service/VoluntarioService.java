@@ -95,10 +95,11 @@ public class VoluntarioService {
         }
     }
 
-    public BasicResponse deletarVoluntario(Long pessoaId){
+    public BasicResponse deletarVoluntario(Long id){
 
         try {
-            this.pessoaRepository.deleteById(pessoaId);
+            Pessoa pessoa = this.voluntarioRepository.findById(id).get().getPessoa();
+            this.pessoaRepository.deleteById(pessoa.getId());
 
             return new BasicResponse("Voluntário deletado com sucesso!", true);
 
