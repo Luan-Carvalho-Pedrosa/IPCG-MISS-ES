@@ -1,5 +1,6 @@
 package tzin_ltda.ipcg_missoes.operation.model.entity;
 
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tzin_ltda.ipcg_missoes.operation.model.BasicEntity;
-import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
+import tzin_ltda.ipcg_missoes.operation.model.dto.CestaDto;
 
 @Builder
 @Entity
@@ -25,37 +26,31 @@ import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name ="membrocomunidade")
-public class Membro extends BasicEntity<MembroDto> {
+@Table(name ="cesta_basica")
+public class Cesta extends BasicEntity<CestaDto>  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name ="valor")
+    private Double valor;
+    @Column(name ="data_oferecimento")
+    private LocalDate data;
+    @ManyToOne
+    @JoinColumn(name = "membro_id")
+    private Membro membro;
 
-    @Column(name = "telefone")
-    private String telefone;
-
-    @Column(name ="foto")
-    private byte[] imagem;
-
-    @OneToOne
-    @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
-
+    
     @Override
-    public MembroDto toDto() {
+    public CestaDto toDto() {
         // TODO Auto-generated method stub
-        MembroDto membroDto = new MembroDto(id, null, null, telefone, imagem, id);
-
-        if (pessoa != null) {
-
-            membroDto.setNome(pessoa.getNome());
-            membroDto.setCpf(pessoa.getCpf());
-            membroDto.setPessoa_id(pessoa.getId());
-
+        CestaDto cestaDto = new CestaDto(id, valor, data, null);
+        if (membro != null) {
+            cestaDto.setMembroDto(membro.toDto());
         }
-        
-        return membroDto;
+
+        return cestaDto;
+       
     }
     
 }
