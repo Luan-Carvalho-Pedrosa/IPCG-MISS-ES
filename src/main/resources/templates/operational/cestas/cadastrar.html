@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="fragments/head"></div>
+
+</head>
+
+<body>
+<div id="app">
+
+    <div id="sidebar" class="active">
+        <div th:replace="fragments/menu"></div>
+    </div>
+
+    <div id="main">
+
+        <div th:replace="fragments/header"></div>
+
+        <div class="page-heading">
+
+        </div>
+        <div class="page-content">
+            <section class="row">
+
+              
+                <div class="page-heading header-margin">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3>Registro de cestas</h3>
+                                <p class="text-subtitle text-muted">Registro de cestas do projeto</p>
+                            </div>
+                            <div class="col-12 col-md-6 order-md-2 order-first">
+                                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/cestas/">Cestas</a></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
+                        <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
+                            <p th:text="${mensagem}"></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <section id="input-sizing">
+                        <div class="row match-height page-heading header-margin">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="form" action="#"
+                                              th:action="${edit} ? @{/cestas/alterar/{id}(id=${cestaId})} : @{/cestas/salvar}"
+                                              th:object="${cesta}" method="post" >
+                                            <div class="row">
+                                                
+                                                    <div class="col-sm-2">
+                                                        <h6>Data</h6>
+                                                        <input
+                                                        type="date"
+                                                        id="data"
+                                                        name="data"
+                                                        th:field="*{data}"
+                                                        min="2025-01-01"
+                                                        max="2050-01-01" />
+                                                    </div>
+                                                    
+                                                   
+                                               
+                                                    <div class="col-sm-4">
+                                                        <h6>Valor</h6>
+                                                        <input class="form-control money-input" type="text"  
+                                                                th:value="${#numbers.formatDecimal(valor, 1, 2, 'COMMA') != null ? 'R$ ' + #numbers.formatDecimal(valor, 1, 2, 'COMMA') : ''}"
+                                                            placeholder="Valor da cesta básica" required>
+                                                        <input type="hidden" th:field="*{valor}" class="money-value">
+
+                                                    </div>
+                                               
+                                            </div>
+                                            <div class="row" style="margin-top: 15px;">
+                                                
+                                                <div class="col-sm-2">
+                                                    <h6>Membro sorteado</h6>
+                                                    <fieldset class="form-group" >
+                                                        <select class="form-select" id="basicSelectAtv" th:field="*{membro_id}" required >
+                                                            <option selected value="" >Selecione o membro</option>
+                                                            <option th:each="membro : ${membros}"
+                                                                    th:value="${membro.id}"
+                                                                    th:text="${membro.nome}"
+                                                                    >
+                                                            </option>
+                                                        </select>
+                                                    </fieldset>
+                                                   
+                                                </div>
+                                                
+                                            </div>
+
+                                            
+                                            <div class="row" style="margin-top: 15px;">
+
+                                               
+                                                <div class="col-12 d-flex justify-content-end">
+                                                    <button type="submit"
+                                                            class="btn btn-primary me-1 mb-1">Salvar</button>
+                                                    <a href="/cestas/" class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </section>
+
+            <div class="footer-padrao">
+                <div th:replace="fragments/footer"></div>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+<div th:replace="fragments/scripts"></div>
+<script>
+    const moneyInput = document.querySelector('.money-input');
+    const hiddenInput = document.querySelector('.money-value');
+
+    // Função para formatar o valor como R$ 1.234,56
+    function formatMoney(value) {
+        if (!value) return '';
+        value = parseFloat(value).toFixed(2); // Garante 2 casas decimais
+        let formattedValue = value.replace('.', ','); // Substitui ponto por vírgula
+        formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos para milhar
+        return 'R$ ' + formattedValue;
+    }
+
+    // Inicializar o campo com o valor existente, se houver
+    if (hiddenInput.value) {
+        moneyInput.value = formatMoney(hiddenInput.value); // Formata o valor do campo oculto
+    }
+
+    // Aplicar máscara durante a digitação
+    moneyInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, ''); // Remove não números
+        if (!value) {
+            e.target.value = '';
+            hiddenInput.value = '';
+            return;
+        }
+
+        // Converter para número com duas casas decimais
+        value = (value / 100).toFixed(2); // Ex.: 123456 -> 1234.56
+
+        // Formatar para exibição (R$ 1.234,56)
+        e.target.value = formatMoney(value);
+
+        // Definir o valor numérico no campo oculto
+        hiddenInput.value = value; // Ex.: 1234.56
+    });
+</script>
+
+</body>
+
+</html>

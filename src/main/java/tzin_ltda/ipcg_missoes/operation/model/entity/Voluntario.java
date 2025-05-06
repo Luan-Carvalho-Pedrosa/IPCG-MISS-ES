@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +30,7 @@ public class Voluntario extends BasicEntity<VoluntarioDto> {
     private String ocupacao;
     private String telefone;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
