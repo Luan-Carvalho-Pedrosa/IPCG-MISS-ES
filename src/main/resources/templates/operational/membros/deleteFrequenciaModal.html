@@ -1,4 +1,4 @@
-<div class="modal fade" th:id="'deleteRegistoModal' + ${voluntario.id}"
+<div class="modal fade" th:id="'deleteFrequenciaModal' + ${atividade.id}"
                                              tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -7,9 +7,9 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Tem certeza que deseja excluir o registro de participação do voluntário
-                                                            <span th:text="${voluntario.nome}"></span> ?</p>
-                                                        <form th:action="@{/atividades/deletarVoluntario/{atividade_id}/{voluntario_id}(atividade_id=${atividade.id},voluntario_id=${voluntario.id})}" method="POST">
+                                                        <p>Tem certeza que deseja excluir o registro de frequencia na atividade realizada em 
+                                                            <span th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></span> ?</p>
+                                                        <form th:action="@{/membros/deletarFrequencia/{atividade_id}/{membro_id}(atividade_id=${atividade.id},membro_id=${membro.id})}" method="POST">
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                                                 <button type="submit" class="btn btn-danger">Excluir</button>

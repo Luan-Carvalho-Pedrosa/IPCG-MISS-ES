@@ -26,9 +26,8 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>Voluntarios que participaram da atividade realizada em
-                                     <strong  th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></strong> </h3>
-                                <p class="text-subtitle text-muted">Lista de voluntários na atividade</p>
+                                <h3>Frequencia do membro <strong th:text="${membro.nome}"></strong></h3>
+                                <p class="text-subtitle text-muted">Lista de atividades as quais o membro participou</p>
                             </div>
                             
                         </div>
@@ -41,54 +40,47 @@
                         </div>
                     </div>
                     <section class="section section-margin">
-                       <div >
+                        <div >
                             <div class="btn-adicionar">
                                 <a  class="btn icon btn-success icon dripicons-plus"
                                     data-bs-toggle="modal"
-                                    th:attr="data-bs-target='#registrarVoluntarioModal' + ${atividade.id}">
+                                    th:attr="data-bs-target='#registrarFrequenciaModal' + ${membro.id}">
                                     <i data-feather="times"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div th:replace="operational/atividades/voluntarios/registrarVoluntarioModal"></div>
+                        <div th:replace="operational/membros/registrarFrequenciaModal"></div>
 
                        
                         <div class="card">
                             <div class="card-body">
-                                 <!-- Campo de percentual de presentes -->
-                                <div class="text-start mb-3">
-                                    <span class="badge bg-info">
-                                        Percentual de Presentes: <span th:text="${#numbers.formatDecimal(porcentagemPresentes, 1, 2) + '%'}"></span>
-                                    </span>
-                                </div>
                                  <!-- Seletor de Itens por Página -->
+                               
                                 <table class="table table-striped" id="table1" style="width: 100%;">
                                     <thead>
                                     <tr>
-                                        <th >Nome</th>
-                                        <th >Ocupação</th>
-                                        <th class="admItem">Ação</th>
+                                        <th style="width: 80%;">Data</th>
+                                       
+                                        <th style="width: 20%;">Ação</th>
 
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="voluntario : ${voluntariosPresentes}" >
-                                        <td th:text="${voluntario.nome}">
-                                        <td th:text="${voluntario.ocupacao}">
+                                    <tr th:each="atividade : ${atividadesVinculadas}" >
+                                        <td th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></td>
+                                       
                                         <td>
-                                            
+                                            <a th:href="@{/atividades/detalhes/{id}(id=${atividade.id})}" class="btn icon btn-primary icon dripicons-search"><i data-feather="edit"></i></a>
                                             <a class="btn icon btn-danger icon dripicons-cross"
                                                 data-bs-toggle="modal"
-                                                th:attr="data-bs-target='#deleteRegistoModal' + ${voluntario.id}">
+                                                th:attr="data-bs-target='#deleteFrequenciaModal' + ${atividade.id}">
                                                 <i data-feather="times"></i>
                                             </a>
                                         </td>
 
-                                        <div th:replace="operational/atividades/voluntarios/deletarRegistroModal"></div>
-
-
+                                        <div th:replace="operational/membros/deleteFrequenciaModal"></div>
 
                                     </tr>
 
@@ -111,7 +103,6 @@
 
 <div th:replace="fragments/scripts"></div>
 <div th:replace="fragments/internal-scripts"></div>
-
 
 
 </body>

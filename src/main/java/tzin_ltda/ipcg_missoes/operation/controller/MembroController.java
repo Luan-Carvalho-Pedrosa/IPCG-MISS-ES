@@ -2,6 +2,7 @@ package tzin_ltda.ipcg_missoes.operation.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javassist.NotFoundException;
 import lombok.extern.log4j.Log4j2;
+import tzin_ltda.ipcg_missoes.operation.model.dto.AtividadeDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
+import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeMembroRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.MembroRequest;
 import tzin_ltda.ipcg_missoes.operation.model.response.BasicResponse;
+import tzin_ltda.ipcg_missoes.operation.service.AtividadeMembroService;
 import tzin_ltda.ipcg_missoes.operation.service.MembroService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +33,9 @@ public class MembroController {
 
     @Autowired
     private MembroService membroService;
+
+    @Autowired
+    private AtividadeMembroService frequenciaService;
 
     @GetMapping("/")
     public String listar(Model model) {
@@ -110,6 +118,63 @@ public class MembroController {
 
         return "redirect:/membros/";
 
+    }
+
+    @GetMapping("/frequencia/{id}")
+    public String frequencias(@PathVariable Long id, Model model,  RedirectAttributes redirect){
+
+        try {
+
+            MembroDto membroDto = this.membroService.buscarPorId(id);
+            AtividadeMembroRequest request = new AtividadeMembroRequest();
+            request.setMembroId(id);
+
+            List<AtividadeDto>[] arrayDeListas = this.frequenciaService.dividirAtividadesPorPresençaDeMembro(id);
+            model.addAttribute("atividadesVinculadas", arrayDeListas[0]);
+            model.addAttribute("atividadesNaoVinculadas", arrayDeListas[1]);
+            model.addAttribute("membroId", id);
+            model.addAttribute("membro", membroDto);
+            model.addAttribute("atividadeMembroRequest", request);
+
+
+            return  "operational/membros/frequencia";
+
+            
+        } catch (NotFoundException e) {
+            // TODO: handle exception
+            redirect.addFlashAttribute("mensagem", e.getMessage());
+            redirect.addFlashAttribute("sucesso", false);
+
+            return "redirect:/membros/";
+        }
+      
+    }
+
+    @PostMapping("/deletarFrequencia/{atividade_id}/{membro_id}")
+    @Transactional
+    public String deletarFrequencia(@PathVariable Long atividade_id, @PathVariable Long membro_id,
+            RedirectAttributes redirectAttributes) {
+
+        BasicResponse response = this.frequenciaService.deletarFrequencia(atividade_id, membro_id);
+
+        redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
+        redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
+
+        return "redirect:/membros/frequencia/" + membro_id;
+
+    }
+    
+    @PostMapping("/registrarFrequencia")
+    public String registrarFrequencia(@Valid AtividadeMembroRequest request,
+            RedirectAttributes redirectAttributes) {
+
+        BasicResponse response = this.frequenciaService.registrarFrequencia(request);
+
+         redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
+        redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
+
+        return "redirect:/membros/frequencia/" + request.getMembroId();
+        
     }
     
 }
