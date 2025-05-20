@@ -1,0 +1,39 @@
+<div class="modal fade" th:id="'registrarVoluntarioModal' + ${atividade.id}"
+     tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Registrar voluntario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Registro de voluntários na atividade de 
+                    <span th:text="${atividade.data}"></span></p>
+                <form th:action="@{/atividades/registrarVoluntario}" 
+                      th:object="${atividadeVoluntarioRequest}" method="POST">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h6>Voluntário participante</h6>
+                            <fieldset class="form-group">
+                                <select class="form-select" id="basicSelectAtv" 
+                                        th:field="*{voluntarioId}" required>
+                                    <option value="" selected>Selecione o voluntário</option>
+                                    <option th:each="voluntario : ${voluntariosAusentes}"
+                                            th:value="${voluntario.id}"
+                                            th:text="${voluntario.nome}"></option>
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <!-- Input oculto para atividadeId -->
+                    <input type="hidden" th:field="*{atividadeId}" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

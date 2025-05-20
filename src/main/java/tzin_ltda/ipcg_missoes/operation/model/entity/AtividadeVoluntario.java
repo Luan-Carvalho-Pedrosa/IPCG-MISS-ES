@@ -1,6 +1,7 @@
 package tzin_ltda.ipcg_missoes.operation.model.entity;
 
 import lombok.*;
+import tzin_ltda.ipcg_missoes.operation.model.dto.AtividadeVoluntarioDto;
 
 import javax.persistence.*;
 
@@ -27,5 +28,20 @@ public class AtividadeVoluntario {
     @ManyToOne
     @JoinColumn(name = "voluntario_id", nullable = false)
     private Voluntario voluntario;
+
+    public AtividadeVoluntarioDto toDto(){
+        AtividadeVoluntarioDto dto = new AtividadeVoluntarioDto(id, null, null);
+        if(atividade != null){
+            dto.setAtividadeDto(atividade.toDto());
+        }
+        if(voluntario != null){
+            dto.setVoluntarioDto(voluntario.toDto());
+        }
+
+
+
+        return dto;
+
+    }
     
 }

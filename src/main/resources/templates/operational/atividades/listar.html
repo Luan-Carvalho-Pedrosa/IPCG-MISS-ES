@@ -68,6 +68,8 @@
                                        
                                         <td>
                                             <a th:href="@{/atividades/editar/{id}(id=${atividade.id})}" class="btn icon btn-primary icon dripicons-pencil"><i data-feather="edit"></i></a>
+                                            <a th:href="@{/atividades/detalhes/{id}(id=${atividade.id})}" class="btn icon btn-success icon dripicons-search"><i data-feather="edit"></i></a>
+
                                             <a class="btn icon btn-danger icon dripicons-trash"
                                                 data-bs-toggle="modal"
                                                 th:attr="data-bs-target='#deleteModal' + ${atividade.id}">
