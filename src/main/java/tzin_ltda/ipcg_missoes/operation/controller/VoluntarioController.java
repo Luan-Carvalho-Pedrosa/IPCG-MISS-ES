@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import tzin_ltda.ipcg_missoes.operation.model.dto.AtividadeDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.VoluntarioDto;
-import tzin_ltda.ipcg_missoes.operation.model.entity.Voluntario;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeVoluntarioRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.VoluntarioRequest;
 import tzin_ltda.ipcg_missoes.operation.model.response.BasicResponse;

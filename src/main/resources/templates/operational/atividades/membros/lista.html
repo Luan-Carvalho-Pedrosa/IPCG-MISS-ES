@@ -26,9 +26,9 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>Voluntarios que participaram da atividade realizada em
+                                <h3>Membros que participaram da atividade realizada em
                                      <strong  th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></strong> </h3>
-                                <p class="text-subtitle text-muted">Lista de voluntários na atividade</p>
+                                <p class="text-subtitle text-muted">Lista de membros na atividade</p>
                             </div>
                             
                         </div>
@@ -45,18 +45,18 @@
                             <div class="btn-adicionar">
                                 <a  class="btn icon btn-success icon dripicons-plus"
                                     data-bs-toggle="modal"
-                                    th:attr="data-bs-target='#registrarVoluntarioModal' + ${atividade.id}">
+                                    th:attr="data-bs-target='#registrarMembroModal' + ${atividade.id}">
                                     <i data-feather="times"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div th:replace="operational/atividades/voluntarios/registrarVoluntarioModal"></div>
+                        <div th:replace="operational/atividades/membros/registrarMembroModal"></div>
 
                        
                         <div class="card">
                             <div class="card-body">
-                                 <!-- Campo de percentual de presentes -->
+                                <!-- Campo de percentual de presentes -->
                                 <div class="text-start mb-3">
                                     <span class="badge bg-info">
                                         Percentual de Presentes: <span th:text="${#numbers.formatDecimal(porcentagemPresentes, 1, 2) + '%'}"></span>
@@ -67,26 +67,24 @@
                                     <thead>
                                     <tr>
                                         <th >Nome</th>
-                                        <th >Ocupação</th>
                                         <th class="admItem">Ação</th>
 
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="voluntario : ${voluntariosPresentes}" >
-                                        <td th:text="${voluntario.nome}">
-                                        <td th:text="${voluntario.ocupacao}">
+                                    <tr th:each="membro : ${membrosPresentes}" >
+                                        <td th:text="${membro.nome}">
                                         <td>
                                             
                                             <a class="btn icon btn-danger icon dripicons-cross"
                                                 data-bs-toggle="modal"
-                                                th:attr="data-bs-target='#deleteRegistoModal' + ${voluntario.id}">
+                                                th:attr="data-bs-target='#deleteRegistoModal' + ${membro.id}">
                                                 <i data-feather="times"></i>
                                             </a>
                                         </td>
 
-                                        <div th:replace="operational/atividades/voluntarios/deletarRegistroModal"></div>
+                                        <div th:replace="operational/atividades/membros/deletarRegistroModal"></div>
 
 
 

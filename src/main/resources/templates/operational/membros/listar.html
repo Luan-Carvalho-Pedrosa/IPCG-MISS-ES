@@ -70,6 +70,8 @@
                                         <td th:text="${membro.telefone}">
                                         <td>
                                             <a th:href="@{/membros/editar/{id}(id=${membro.id})}" class="btn icon btn-primary icon dripicons-pencil"><i data-feather="edit"></i></a>
+                                            <a th:href="@{/membros/frequencia/{id}(id=${membro.id})}" class="btn icon btn-success icon dripicons-checklist"><i data-feather="edit"></i></a>
+
                                             <a class="btn icon btn-danger icon dripicons-trash"
                                                 data-bs-toggle="modal"
                                                 th:attr="data-bs-target='#deleteModal' + ${membro.id}">

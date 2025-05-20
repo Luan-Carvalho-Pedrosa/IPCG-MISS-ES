@@ -1,0 +1,39 @@
+<div class="modal fade" th:id="'registrarMembroModal' + ${atividade.id}"
+     tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Registrar membros</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Registro de membro na atividade de 
+                    <span th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></span></p>
+                <form th:action="@{/atividades/registrarMembro}" 
+                      th:object="${atividadeMembroRequest}" method="POST">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h6>Membro participante</h6>
+                            <fieldset class="form-group">
+                                <select class="form-select" id="basicSelectAtv" 
+                                        th:field="*{membroId}" required>
+                                    <option value="" selected>Selecione o membro</option>
+                                    <option th:each="membro : ${membrosAusentes}"
+                                            th:value="${membro.id}"
+                                            th:text="${membro.nome}"></option>
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <!-- Input oculto para atividadeId -->
+                    <input type="hidden" th:field="*{atividadeId}" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

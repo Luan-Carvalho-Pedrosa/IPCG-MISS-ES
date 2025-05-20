@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tzin_ltda.ipcg_missoes.operation.model.BasicDto;
 import tzin_ltda.ipcg_missoes.operation.model.entity.AtividadeVoluntario;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeVoluntarioRequest;
 
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
