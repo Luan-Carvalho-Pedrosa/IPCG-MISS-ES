@@ -11,6 +11,8 @@
         <include file="scripts/TS-10/2025-04-26_ALTER-TABLE-MEMBRO.sql" relativeToChangelogFile="true" />
         <include file="scripts/TS-15/2025-05-05_ALTER-TABLE-CESTA-BASICA.sql" relativeToChangelogFile="true" />
         <include file="scripts/TS-15/2025-05-06_CREATE-SEQ-CESTA.sql" relativeToChangelogFile="true" />
+        <include file="scripts/TS-13/2025-05-19_ALTER-TABLE-ATIVIDADE-VOL.sql" relativeToChangelogFile="true" />
+
 
 
 

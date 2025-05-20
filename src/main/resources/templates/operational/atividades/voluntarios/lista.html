@@ -26,8 +26,9 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>Voluntários</h3>
-                                <p class="text-subtitle text-muted">Lista de voluntários do projeto</p>
+                                <h3>Voluntarios que participaram da atividade realizada em
+                                     <strong  th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></strong> </h3>
+                                <p class="text-subtitle text-muted">Lista de voluntários na atividade</p>
                             </div>
                             
                         </div>
@@ -40,13 +41,18 @@
                         </div>
                     </div>
                     <section class="section section-margin">
-                        <div >
+                       <div >
                             <div class="btn-adicionar">
-                                <a th:href="@{/voluntarios/incluir}" class="btn icon btn-primary icon dripicons-plus">
+                                <a  class="btn icon btn-success icon dripicons-plus"
+                                    data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#registrarVoluntarioModal' + ${atividade.id}">
                                     <i data-feather="times"></i>
                                 </a>
                             </div>
                         </div>
+
+                        <div th:replace="operational/atividades/voluntarios/registrarVoluntarioModal"></div>
+
                        
                         <div class="card">
                             <div class="card-body">
@@ -56,32 +62,28 @@
                                     <thead>
                                     <tr>
                                         <th >Nome</th>
-                                        <th >CPF</th>
                                         <th >Ocupação</th>
-                                        <th >Telefone</th>
                                         <th class="admItem">Ação</th>
 
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="voluntario : ${voluntarios}" >
+                                    <tr th:each="voluntario : ${voluntariosPresentes}" >
                                         <td th:text="${voluntario.nome}">
-                                        <td th:text="${voluntario.cpf}">
                                         <td th:text="${voluntario.ocupacao}">
-                                        <td th:text="${voluntario.telefone}">
                                         <td>
-                                            <a th:href="@{/voluntarios/editar/{id}(id=${voluntario.id})}" class="btn icon btn-primary icon dripicons-pencil"><i data-feather="edit"></i></a>
-                                            <a th:href="@{/voluntarios/frequencia/{id}(id=${voluntario.id})}" class="btn icon btn-success icon dripicons-checklist"><i data-feather="edit"></i></a>
-
-                                            <a class="btn icon btn-danger icon dripicons-trash"
+                                            
+                                            <a class="btn icon btn-danger icon dripicons-cross"
                                                 data-bs-toggle="modal"
-                                                th:attr="data-bs-target='#deleteModal' + ${voluntario.id}">
+                                                th:attr="data-bs-target='#deleteRegistoModal' + ${voluntario.id}">
                                                 <i data-feather="times"></i>
                                             </a>
                                         </td>
 
-                                        <div th:replace="operational/voluntarios/deleteModal"></div>
+                                        <div th:replace="operational/atividades/voluntarios/deletarRegistroModal"></div>
+
+
 
                                     </tr>
 

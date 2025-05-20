@@ -1,0 +1,39 @@
+<div class="modal fade" th:id="'registrarFrequenciaModal' + ${voluntario.id}"
+     tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Adicionar Frequência</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Registro de frequência de 
+                    <span th:text="${voluntario.nome}"></span></p>
+                <form th:action="@{/voluntarios/registrarFrequencia}" 
+                      th:object="${atividadeVoluntarioRequest}" method="POST">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h6>Atividade participada</h6>
+                            <fieldset class="form-group">
+                                <select class="form-select" id="basicSelectAtv" 
+                                        th:field="*{atividadeId}" required>
+                                    <option value="" selected>Selecione a atividade</option>
+                                    <option th:each="atividade : ${atividadesNaoVinculadas}"
+                                            th:value="${atividade.id}"
+                                            th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></option>
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <!-- Input oculto para voluntarioId -->
+                    <input type="hidden" th:field="*{voluntarioId}" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

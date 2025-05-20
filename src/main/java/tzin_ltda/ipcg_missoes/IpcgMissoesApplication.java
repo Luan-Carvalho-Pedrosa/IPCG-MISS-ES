@@ -23,11 +23,11 @@ public class IpcgMissoesApplication {
 				String command;
 
 				if (os.contains("win")) {
-					command = "cmd /c start firefox " + url;
+                command = "cmd /c start chrome " + url;
 				} else if (os.contains("mac")) {
-					command = "open -a Firefox " + url;
+					command = "open -a \"Google Chrome\" " + url;
 				} else {
-					command = "firefox " + url;
+					command = "google-chrome " + url;
 				}
 
 				Runtime.getRuntime().exec(command);

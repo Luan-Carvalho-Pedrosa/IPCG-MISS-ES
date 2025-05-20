@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j2;
+import tzin_ltda.ipcg_missoes.operation.comon.ListConverter.AtividadeListConverter;
 import tzin_ltda.ipcg_missoes.operation.model.dto.AtividadeDto;
 import tzin_ltda.ipcg_missoes.operation.model.entity.Atividade;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeRequest;
@@ -20,6 +21,7 @@ import tzin_ltda.ipcg_missoes.operation.repository.AtividadeRepository;
 public class AtividadeService {
      @Autowired
     private AtividadeRepository atividadeRepository;
+
 
     public BasicResponse salvar(AtividadeRequest request) {
         try {
@@ -62,7 +64,7 @@ public class AtividadeService {
     public List<AtividadeDto> listarAtividades() {
         try {
             List<Atividade> atividades = atividadeRepository.findAll();
-            return listagemBasica(atividades);
+            return AtividadeListConverter.listagemBasica(atividades);
         } catch (Exception e) {
             log.error("Erro ao listar atividades: ", e);
             return new ArrayList<>();
@@ -79,12 +81,6 @@ public class AtividadeService {
         }
     }
 
-    private List<AtividadeDto> listagemBasica(List<Atividade> atividades) {
-        List<AtividadeDto> dtos = new ArrayList<>();
-        for (Atividade atividade : atividades) {
-            dtos.add(atividade.toDto());
-        }
-        return dtos;
-    }
+   
     
 }

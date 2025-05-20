@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="fragments/head"></div>
+
+</head>
+
+<body>
+<div id="app">
+
+    <div id="sidebar" class="active">
+        <div th:replace="fragments/menu"></div>
+    </div>
+
+    <div id="main">
+
+        <div th:replace="fragments/header"></div>
+
+        <div class="page-heading">
+
+        </div>
+        <div class="page-content">
+            <section class="row">
+
+                
+                <div class="page-heading header-margin">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3>Detalhes da atividade realizada em <strong  th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></strong></h3>
+                            </div>
+                            <div class="col-12 col-md-6 order-md-2 order-first">
+                                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/atividades/">atividades</a></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
+                        <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
+                            <p th:text="${mensagem}"></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <section id="input-sizing">
+                                <div class="row match-height page-heading header-margin">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <textarea class="form-control w-80" rows="6" th:text="${atividade.relatorio}" disabled></textarea>
+                                                <hr class="my-3" style="border-top: 1px solid #d1d1d1;">
+                                                <div class="row gx-2 justify-content-left">
+                                                    <div class="col-sm-auto">
+                                                        <div class="btn-adicionar" style="margin-right: 15px;">
+                                                            <a th:href="@{/atividades/voluntarios/{id}(id=${atividade.id})}" class="btn icon btn-primary icon dripicons-view-list">
+                                                                Voluntários
+                                                                <i data-feather="times"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-auto">
+                                                        <div class="btn-adicionar" style="margin-right: 15px;">
+                                                            <a th:href="@{/atividades/membros/{id}(id=${atividade.id})}" class="btn icon btn-primary icon dripicons-view-list">
+                                                                Membros
+                                                                <i data-feather="times"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-auto">
+                                                        <div class="btn-adicionar" style="margin-right: 15px;">
+                                                            <a th:href="@{/atividades/materiais/{id}(id=${atividade.id})}" class="btn icon btn-primary icon dripicons-view-list ">
+                                                                Materiais
+                                                                <i data-feather="times"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-auto">
+                                                        <div class="btn-adicionar" style="margin-right: 15px;">
+                                                            <a th:href="@{/atividades/imagens/{id}(id=${atividade.id})}" class="btn icon btn-primary icon dripicons-view-list">
+                                                                Imagens
+                                                                <i data-feather="times"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                                                
+                    
+                </div>
+
+            </section>
+
+            <div class="footer-padrao">
+                <div th:replace="fragments/footer"></div>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+<div th:replace="fragments/scripts"></div>
+
+</body>
+
+</html>
