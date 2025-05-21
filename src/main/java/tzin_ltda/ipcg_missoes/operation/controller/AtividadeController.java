@@ -9,15 +9,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.extern.log4j.Log4j2;
 import tzin_ltda.ipcg_missoes.operation.comon.PercentCalculator;
 import tzin_ltda.ipcg_missoes.operation.model.dto.AtividadeDto;
+import tzin_ltda.ipcg_missoes.operation.model.dto.ImagemAtividadeDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.VoluntarioDto;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeMembroRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeVoluntarioRequest;
+import tzin_ltda.ipcg_missoes.operation.model.request.ImagemAtividadeRequest;
 import tzin_ltda.ipcg_missoes.operation.model.response.BasicResponse;
 import tzin_ltda.ipcg_missoes.operation.service.AtividadeMembroService;
 import tzin_ltda.ipcg_missoes.operation.service.AtividadeService;
 import tzin_ltda.ipcg_missoes.operation.service.AtividadeVoluntarioService;
+import tzin_ltda.ipcg_missoes.operation.service.ImagemAtividadeService;
 
 import java.util.List;
 
@@ -37,6 +40,9 @@ public class AtividadeController {
 
     @Autowired
     private AtividadeMembroService atividadeMembroService;
+
+    @Autowired
+    private ImagemAtividadeService imagemAtividadeService;
 
     @GetMapping({"", "/"})
     public String getAll(Model model) {
@@ -214,6 +220,48 @@ public class AtividadeController {
         redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
 
         return "redirect:/atividades/membros/" + atividade_id;
+
+    }
+
+    @GetMapping("/imagens/{id}")
+    public String listarImagens(@PathVariable Long id, Model model) {
+        ImagemAtividadeRequest request = new ImagemAtividadeRequest();
+
+        AtividadeDto dto = atividadeService.buscarPorId(id);
+        List<ImagemAtividadeDto> imagens = this.imagemAtividadeService.listarImagensPorAtividade(dto.toEntity());
+
+        request.setAtividadeId(id);
+        model.addAttribute("atividade", dto);
+        model.addAttribute("id", id);
+        model.addAttribute("imagens", imagens);
+        model.addAttribute("imagemAtividadeRequest", request);
+
+        return "operational/atividades/imagens/lista";
+    }
+    
+     @PostMapping("/registrarImagem")
+     public String registrar(@Valid ImagemAtividadeRequest request, RedirectAttributes redirectAttributes) {
+
+         BasicResponse response = this.imagemAtividadeService.registrarImagem(request);
+
+         redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
+         redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
+
+         return "redirect:/atividades/imagens/" + request.getAtividadeId();
+
+     }
+
+    @PostMapping("/deletarImagem/{id}/{atividade_id}")
+    public String deletarImagem(@PathVariable Long id, @PathVariable Long atividade_id,
+             RedirectAttributes redirectAttributes) {
+        
+        BasicResponse response = this.imagemAtividadeService.deletarImagem(id);
+
+        redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
+        redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
+
+        return "redirect:/atividades/imagens/" + atividade_id;
+       
 
     }
 

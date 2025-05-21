@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="fragments/head"></div>
+
+</head>
+
+<body>
+<div id="app">
+
+    <div id="sidebar" class="active">
+        <div th:replace="fragments/menu"></div>
+    </div>
+
+    <div id="main">
+
+        <div th:replace="fragments/header"></div>
+
+        <div class="page-content">
+            <section class="row">
+
+                <div class="page-heading header-margin">
+                   <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3>Imagens da atividade realizada em
+                                     <strong  th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></strong> </h3>
+                                <p class="text-subtitle text-muted">Lista de imagens da atividade</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
+                        <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
+                            <p th:text="${mensagem}"></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <section class="section section-margin">
+                        <div >
+                            <div class="btn-adicionar">
+                                <a  class="btn icon btn-success icon dripicons-plus"
+                                    data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#registrarImagemModal' + ${atividade.id}">
+                                    <i data-feather="times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div th:replace="operational/atividades/imagens/registrarImagemModal"></div>
+
+                       
+                       <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagem</th>
+                                            <th>Excluir?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="imagem : ${imagens}">
+                                            <td class="text-center align-middle">
+                                                <img th:src="'data:image/png;base64,' + ${imagem.getImagemBase64()}" 
+                                                    style="max-width: 200px;" 
+                                                    alt="Imagem da atividade" />
+                                            </td>
+                                            <td  class="text-center align-middle">
+                                                <a class="btn icon btn-danger dripicons-trash"
+                                                data-bs-toggle="modal"
+                                                th:attr="data-bs-target='#deletarImagemModal' + ${imagem.id}">
+                                                <i data-feather="times"></i>
+                                                </a>
+                                            </td>
+                                             <!-- Modal de deleção fora da tabela, mas dentro do card-body -->
+                                            <div th:replace="operational/atividades/imagens/deletarImagemModal"></div>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                               
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+        <div class="footer-padrao">
+            <div th:replace="fragments/footer"></div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="fragments/scripts"></div>
+<div th:replace="fragments/internal-scripts"></div>
+
+
+</body>
+</html>

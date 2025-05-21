@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j2;
@@ -62,13 +63,19 @@ public class MembroService {
 
             return new BasicResponse("Membro cadastrado com sucesso!", true);
 
-            
-        } catch (Exception e) {
+        }
+        catch (MaxUploadSizeExceededException e) {
+            return new BasicResponse(" Erro: O arquivo de imagem excede o tamanho máximo de 1MB.", false);
+
+        } 
+        catch (Exception e) {
             // TODO: handle exception
 
             return new BasicResponse("Erro ao cadastrar membro.", false);
 
         }
+
+        
     }
     
     public BasicResponse editar(MembroRequest request, Long id) {
