@@ -1,0 +1,66 @@
+<div class="modal fade" th:id="'registrarImagemModal' + ${atividade.id}"
+     tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Registrar imagens</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Registro de imagem na atividade de 
+                    <span th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></span></p>
+                <form th:action="@{/atividades/registrarImagem}" 
+                      th:object="${imagemAtividadeRequest}" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h6>Imagem</h6>
+                            <input type="file" id="imagem" name="imagem"
+                                th:field="*{imagem}"
+                                accept="image/png">
+                            <div id="error-message" style="color: red; display: none;">
+                                O arquivo excede o tamanho máximo de 1MB.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Input oculto para atividadeId -->
+                    <input type="hidden" th:field="*{atividadeId}" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="submitButton">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('imagem').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const maxSize = 1048576; // 1MB em bytes
+        const errorMessage = document.getElementById('error-message');
+        const submitButton = document.getElementById('submitButton');
+        errorMessage.style.display = 'none'; // Esconde mensagem inicialmente
+        submitButton.disabled = false; // Habilita o botão inicialmente
+
+        if (file) {
+            // Verifica o tipo MIME do arquivo
+            const validType = file.type === 'image/png';
+            // Opcionalmente, verifica a extensão do arquivo
+            const validExtension = file.name.toLowerCase().endsWith('.png');
+
+            if (!validType || !validExtension) {
+                errorMessage.textContent = 'Por favor, selecione um arquivo PNG.';
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true;
+            } else if (file.size > maxSize) {
+                errorMessage.textContent = 'O arquivo excede o tamanho máximo de 1MB.';
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true;
+            } else {
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false;
+            }
+        }
+    });
+</script>

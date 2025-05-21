@@ -16,7 +16,7 @@ import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeMembroRequest;
 @Builder
 public class AtividadeMembroDto {
 
-     private Long id;
+    private Long id;
     private AtividadeDto atividadeDto;
     private MembroDto MembroDto;
 

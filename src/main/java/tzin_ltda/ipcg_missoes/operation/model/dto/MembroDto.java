@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tzin_ltda.ipcg_missoes.operation.comon.ByteArrayMultipartFile;
+import tzin_ltda.ipcg_missoes.operation.comon.ImageConverter;
 import tzin_ltda.ipcg_missoes.operation.model.BasicDto;
 import tzin_ltda.ipcg_missoes.operation.model.entity.Membro;
 import tzin_ltda.ipcg_missoes.operation.model.entity.Pessoa;
@@ -60,11 +61,8 @@ public class MembroDto extends BasicDto<Membro, MembroRequest> {
     }
 
     public String getImagemBase64() {
-        String imagemBase64 = null;
-        if (imagem != null ) {
-             imagemBase64 = Base64.getEncoder().encodeToString(imagem);
-        }
-        return imagemBase64;
+       
+        return ImageConverter.getImagemBase64(imagem);
     }
     
     
