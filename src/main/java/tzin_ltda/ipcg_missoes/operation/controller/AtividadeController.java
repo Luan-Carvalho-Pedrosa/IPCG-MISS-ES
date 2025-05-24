@@ -10,13 +10,17 @@ import lombok.extern.log4j.Log4j2;
 import tzin_ltda.ipcg_missoes.operation.comon.PercentCalculator;
 import tzin_ltda.ipcg_missoes.operation.model.dto.AtividadeDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.ImagemAtividadeDto;
+import tzin_ltda.ipcg_missoes.operation.model.dto.MaterialAtividadeDto;
+import tzin_ltda.ipcg_missoes.operation.model.dto.MaterialDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
 import tzin_ltda.ipcg_missoes.operation.model.dto.VoluntarioDto;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeMembroRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeVoluntarioRequest;
 import tzin_ltda.ipcg_missoes.operation.model.request.ImagemAtividadeRequest;
+import tzin_ltda.ipcg_missoes.operation.model.request.MaterialAtividadeRequest;
 import tzin_ltda.ipcg_missoes.operation.model.response.BasicResponse;
+import tzin_ltda.ipcg_missoes.operation.service.AtividadeMaterialService;
 import tzin_ltda.ipcg_missoes.operation.service.AtividadeMembroService;
 import tzin_ltda.ipcg_missoes.operation.service.AtividadeService;
 import tzin_ltda.ipcg_missoes.operation.service.AtividadeVoluntarioService;
@@ -40,6 +44,9 @@ public class AtividadeController {
 
     @Autowired
     private AtividadeMembroService atividadeMembroService;
+
+    @Autowired
+    private AtividadeMaterialService atividadeMaterialService ;
 
     @Autowired
     private ImagemAtividadeService imagemAtividadeService;
@@ -177,8 +184,8 @@ public class AtividadeController {
             request.setAtividadeId(id);
 
             model.addAttribute("atividade", dto);
-            model.addAttribute("membrosPresentes", arrayDeListas[0]);
-            model.addAttribute("membrosAusentes", arrayDeListas[1]);
+            model.addAttribute("membrosPresentes", membrosPresentes);
+            model.addAttribute("membrosAusentes", membrosAusentes);
             model.addAttribute("atividadeMembroRequest", request);
             model.addAttribute("porcentagemPresentes", porcentagemPresentes);
 
@@ -253,15 +260,74 @@ public class AtividadeController {
 
     @PostMapping("/deletarImagem/{id}/{atividade_id}")
     public String deletarImagem(@PathVariable Long id, @PathVariable Long atividade_id,
-             RedirectAttributes redirectAttributes) {
-        
+            RedirectAttributes redirectAttributes) {
+
         BasicResponse response = this.imagemAtividadeService.deletarImagem(id);
 
         redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
         redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
 
         return "redirect:/atividades/imagens/" + atividade_id;
+
+    }
+    
+     @GetMapping("/materiais/{id}")
+    public String listarMateriais(@PathVariable Long id, Model model, RedirectAttributes redirect) {
+
+        try {
+            AtividadeDto dto = atividadeService.buscarPorId(id);
+
+            List<MaterialDto> materiaisNaoUsados = this.atividadeMaterialService.listarMateriaisNaoUsados(id);
+            List<MaterialAtividadeDto> materiaisUsados = this.atividadeMaterialService
+                    .listarMaterialsPresentesNaAtividade(dto.toEntity());
+           
+
+            MaterialAtividadeRequest request = new MaterialAtividadeRequest();
+            request.setAtividadeId(id);
+
+            model.addAttribute("atividade", dto);
+            model.addAttribute("materiaisUsados", materiaisUsados);
+            model.addAttribute("materiaisNaoUsados", materiaisNaoUsados);
+            model.addAttribute("atividadeMaterialRequest", request);
+
+
+
+            return "operational/atividades/materiais/lista";
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            redirect.addFlashAttribute("mensagem", e.getMessage());
+            redirect.addFlashAttribute("sucesso", false);
+
+            return "redirect:/atividades/detalhes/"+id;
+        }
        
+    }
+
+    @PostMapping("/registrarMaterial")
+    public String registrarFrequencia(@Valid MaterialAtividadeRequest request,
+            RedirectAttributes redirectAttributes) {
+
+        BasicResponse response = this.atividadeMaterialService.registrarUsoDeMaterial(request);
+
+        redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
+        redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
+
+        return "redirect:/atividades/materiais/" + request.getAtividadeId();
+        
+    }
+
+    @PostMapping("/deletarMaterial/{atividade_id}/{material_id}")
+    @Transactional
+    public String deletarFrequenciaMaterial(@PathVariable Long atividade_id, @PathVariable Long material_id,
+            RedirectAttributes redirectAttributes) {
+
+        BasicResponse response = this.atividadeMaterialService.deletarFrequencia(atividade_id, material_id);
+
+        redirectAttributes.addFlashAttribute("mensagem", response.getMessage());
+        redirectAttributes.addFlashAttribute("sucesso", response.isSucesso());
+
+        return "redirect:/atividades/materiais/" + atividade_id;
 
     }
 

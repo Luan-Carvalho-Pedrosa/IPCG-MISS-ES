@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="fragments/head"></div>
+
+</head>
+
+<body>
+<div id="app">
+
+    <div id="sidebar" class="active">
+        <div th:replace="fragments/menu"></div>
+    </div>
+
+    <div id="main">
+
+        <div th:replace="fragments/header"></div>
+
+        <div class="page-content">
+            <section class="row">
+
+                <div class="page-heading header-margin">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3>Materiais que foram usados na atividade realizada em
+                                     <strong  th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></strong> </h3>
+                                <p class="text-subtitle text-muted">Lista de materiais na atividade</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div th:if="${mensagem}" class="col-12 col-md-6 order-md-2 order-last">
+                        <div class="alert alert-dismissible fade show" th:classappend="${sucesso ? 'alert-success' : 'alert-danger'}" role="alert">
+                            <p th:text="${mensagem}"></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <section class="section section-margin">
+                       <div >
+                            <div class="btn-adicionar">
+                                <a  class="btn icon btn-success icon dripicons-plus"
+                                    data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#registrarMaterialModal' + ${atividade.id}">
+                                    <i data-feather="times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div th:replace="operational/atividades/materiais/registrarMaterialModal"></div>
+
+                       
+                        <div class="card">
+                            <div class="card-body">
+                               
+                                 <!-- Seletor de Itens por Página -->
+                                <table class="table table-striped" id="table1" style="width: 100%;">
+                                    <thead>
+                                    <tr>
+                                        <th >Nome</th>
+                                        <th >Quantidade usada</th>
+                                        <th class="admItem">Ação</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="registro : ${materiaisUsados}" >
+                                        <td th:text="${registro.material.nome}">
+                                        <td th:text="${registro.quantidadeUsada}">
+                                        <td>
+                                            
+                                            <a class="btn icon btn-danger icon dripicons-cross"
+                                                data-bs-toggle="modal"
+                                                th:attr="data-bs-target='#deleteRegistroModal' + ${registro.material.id}">
+                                                <i data-feather="times"></i>
+                                            </a>
+                                        </td>
+
+                                        <div th:replace="operational/atividades/materiais/deletarRegistroModal"></div>
+
+
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                
+                                
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+        <div class="footer-padrao">
+            <div th:replace="fragments/footer"></div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="fragments/scripts"></div>
+<div th:replace="fragments/internal-scripts"></div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<div class="modal fade" th:id="'registrarMaterialModal' + ${atividade.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Registrar Materiais</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Registro de material usado na atividade de 
+                    <span th:text="${#temporals.format(atividade.data, 'dd/MM/yyyy')}"></span></p>
+                <form th:action="@{/atividades/registrarMaterial}" 
+                      th:object="${atividadeMaterialRequest}" method="POST">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h6>Material usado</h6>
+                            <fieldset class="form-group">
+                                <select class="form-select" id="basicSelectAtv" 
+                                        th:field="*{materialId}" required>
+                                    <option value="" selected>Selecione o Material</option>
+                                    <option th:each="material : ${materiaisNaoUsados}"
+                                            th:value="${material.id}"
+                                            th:text="${material.nome}"
+                                            ></option>
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-sm-6">
+                            <h6>Quantidade</h6>
+                            <input class="form-control" type="number" name="quantidade"
+                                   th:field="*{quantidadeUsada}"
+                                   min="0"
+                                   placeholder="quantidade"
+                                   >
+                        </div>
+                    </div>
+                    <!-- Input oculto para atividadeId -->
+                    <input type="hidden" th:field="*{atividadeId}" />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para manipular o comportamento -->
