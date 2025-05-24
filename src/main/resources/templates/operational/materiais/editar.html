@@ -3,9 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
     <div th:replace="fragments/head"></div>
-
+    <title>Editar Material</title>
 </head>
 
 <body>
@@ -20,23 +19,22 @@
         <div th:replace="fragments/header"></div>
 
         <div class="page-heading">
-
         </div>
         <div class="page-content">
             <section class="row">
 
-              
                 <div class="page-heading header-margin">
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>Registro de materiais</h3>
-                                <p class="text-subtitle text-muted">Registro de materiais do projeto</p>
+                                <h3>Editar Material</h3>
+                                <p class="text-subtitle text-muted">Edição de material do projeto</p>
                             </div>
                             <div class="col-12 col-md-6 order-md-2 order-first">
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="/materiais/">materiais</a></li>
+                                        <li class="breadcrumb-item"><a href="/materiais/">Materiais</a></li>
+                                        <li class="breadcrumb-item active">Editar</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -55,8 +53,8 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form class="form" action="#"
-                                              th:action="${edit} ? @{/materiais/alterar/{id}(id=${materialId})} : @{/materiais/salvar}"
-                                              th:object="material" method="post" >
+                                              th:action="@{/materiais/editar/{id}(id=${material.id})}"
+                                              th:object="${material}" method="post">
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <h6>Nome</h6>
@@ -64,33 +62,27 @@
                                                         th:field="*{nome}"
                                                            placeholder="Informe o nome do material..." required>
                                                 </div>
-                                                <div class="col-sm-8" >
+                                                <div class="col-sm-8">
                                                     <h6>Descrição</h6>
-                                                    <input class="form-control" type="text" name="cpf"
+                                                    <input class="form-control" type="text"
                                                     th:field="*{descricao}"
-                                                    placeholder="descricao" required>
+                                                    placeholder="Descrição do material" required>
                                                 </div>
-                                               
                                             </div>
                                             <div class="row" style="margin-top: 15px;">
-                                                
                                                 <div class="col-sm-2">
                                                     <h6>Quantidade</h6>
-                                                    <input class="form-control" type="number" name="quantidade"
+                                                    <input class="form-control" type="number"
                                                         th:field="*{quantidade}"
                                                         min="0"
-                                                        placeholder="quantidade" >
+                                                        placeholder="Quantidade" required>
                                                 </div>
-                                                
                                             </div>
 
-                                            
                                             <div class="row" style="margin-top: 15px;">
-
-                                               
                                                 <div class="col-12 d-flex justify-content-end">
                                                     <button type="submit"
-                                                            class="btn btn-primary me-1 mb-1">Salvar</button>
+                                                            class="btn btn-primary me-1 mb-1">Atualizar</button>
                                                     <a href="/materiais/" class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
                                                 </div>
                                             </div>
@@ -108,14 +100,10 @@
                 <div th:replace="fragments/footer"></div>
             </div>
         </div>
-
-        
-
     </div>
 </div>
 
 <div th:replace="fragments/scripts"></div>
 
 </body>
-
 </html>
