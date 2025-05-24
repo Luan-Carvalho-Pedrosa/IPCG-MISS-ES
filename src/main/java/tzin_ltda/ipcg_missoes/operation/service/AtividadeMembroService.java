@@ -15,7 +15,6 @@ import tzin_ltda.ipcg_missoes.operation.model.dto.MembroDto;
 import tzin_ltda.ipcg_missoes.operation.model.entity.Atividade;
 import tzin_ltda.ipcg_missoes.operation.model.entity.AtividadeMembro;
 import tzin_ltda.ipcg_missoes.operation.model.entity.Membro;
-import tzin_ltda.ipcg_missoes.operation.model.entity.Membro;
 import tzin_ltda.ipcg_missoes.operation.model.request.AtividadeMembroRequest;
 import tzin_ltda.ipcg_missoes.operation.model.response.BasicResponse;
 import tzin_ltda.ipcg_missoes.operation.repository.AtividadeRepository;

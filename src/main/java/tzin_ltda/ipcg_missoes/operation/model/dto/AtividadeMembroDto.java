@@ -35,6 +35,7 @@ public class AtividadeMembroDto {
 
     public AtividadeMembro toEntity(){
         AtividadeMembro atividadeMembro = new AtividadeMembro();
+        atividadeMembro.setId(id);
         if(atividadeDto != null){
             atividadeMembro.setAtividade(atividadeDto.toEntity());
         }
