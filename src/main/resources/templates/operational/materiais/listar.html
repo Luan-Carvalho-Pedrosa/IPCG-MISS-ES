@@ -65,11 +65,13 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="material : ${materiais}" >
-                                        <td th:text="${material.nome}">
-                                        <td th:text="${material.cpf}">
-                                        <td th:text="${material.telefone}">
+                                        <td th:text="${material.nome}"></td>
+                                        <td th:text="${material.descricao}"></td>
+                                        <td th:text="${material.quantidade}"></td>
+
                                         <td>
                                             <a th:href="@{/materiais/editar/{id}(id=${material.id})}" class="btn icon btn-primary icon dripicons-pencil"><i data-feather="edit"></i></a>
+                                            <a th:href="@{/materiais/detalhes/{id}(id=${material.id})}" class="btn icon btn-success icon dripicons-search"><i data-feather="edit"></i></a>
                                             <a class="btn icon btn-danger icon dripicons-trash"
                                                 data-bs-toggle="modal"
                                                 th:attr="data-bs-target='#deleteModal' + ${material.id}">
